@@ -47,10 +47,10 @@ export default {
 	},
 
 	created() {
-		const { account, password } = getLoginInfo();
-		if (account && password) {
-			this.form.account = account;
-			this.form.password = password;
+		const loginInfo = getLoginInfo();
+		if (loginInfo && loginInfo.account && loginInfo.password) {
+			this.form.account = loginInfo.account;
+			this.form.password = loginInfo.password;
 			this.login();
 		} else {
 			this.autoLoading = false;

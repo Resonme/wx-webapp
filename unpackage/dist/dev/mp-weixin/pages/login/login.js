@@ -170,11 +170,11 @@ var _data = __webpack_require__(/*! @/utils/data.js */ 17);function _interopRequ
 
   },
 
-  created: function created() {var _getLoginInfo =
-    (0, _data.getLoginInfo)(),account = _getLoginInfo.account,password = _getLoginInfo.password;
-    if (account && password) {
-      this.form.account = account;
-      this.form.password = password;
+  created: function created() {
+    var loginInfo = (0, _data.getLoginInfo)();
+    if (loginInfo && loginInfo.account && loginInfo.password) {
+      this.form.account = loginInfo.account;
+      this.form.password = loginInfo.password;
       this.login();
     } else {
       this.autoLoading = false;
