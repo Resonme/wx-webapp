@@ -35,16 +35,14 @@
   -webkit-font-smoothing: antialiased;
   -webkit-text-stroke-width: 0.2px;
   -moz-osx-font-smoothing: grayscale; }
-button[type='primary'] {
-  background-color: #4FC294; }
-button[disabled][type='primary'] {
+button[type='primary'], button[type='primary']:active, button[type='primary']:focus, button-hover[type='primary'], button[disabled][type='primary'], button[loading][type='primary'] {
   background-color: #4FC294; }
 button[disabled][type='primary']::after {
-    background-color: rgba(255, 255, 255, 0.5); }
-button-hover[type='primary'] {
-  background-color: #4FC294; }
+  background-color: rgba(255, 255, 255, 0.5); }
 button::after {
   border-width: 0; }
+.uni-input-placeholder {
+  color: #ccc; }
 text,
 view {
   -webkit-box-sizing: border-box;

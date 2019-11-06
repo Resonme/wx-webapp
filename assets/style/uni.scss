@@ -1,20 +1,15 @@
 // button
 button {
-	&[type='primary'] {
+	&[type='primary'],
+	&[type='primary']:active,
+	&[type='primary']:focus,
+	&-hover[type='primary'],
+	&[disabled][type='primary'],
+	&[loading][type='primary']{
 		background-color: $uni-color-primary;
 	}
-	&[disabled] {
-		&[type='primary'] {
-			background-color: $uni-color-primary;
-			&::after {
-				background-color: rgba(255, 255, 255, 0.5);
-			}
-		}
-	}
-	&-hover {
-		&[type='primary'] {
-			background-color: $uni-color-primary;
-		}
+	&[disabled][type='primary']::after {
+		background-color: rgba(255, 255, 255, 0.5);
 	}
 	&::after {
 		border-width: 0;
@@ -22,3 +17,6 @@ button {
 }
 
 // input
+.uni-input-placeholder {
+	color: $uni-text-color-placeholder;
+}

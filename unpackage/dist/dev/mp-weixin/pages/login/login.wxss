@@ -87,7 +87,24 @@
   position: relative;
   margin-bottom: 34rpx;
   height: 120rpx;
-  padding-top: 46rpx;
+  padding: 0 0 24rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+.login-input-border .login-input-label.data-v-329f455c {
+    font-size: 28rpx;
+    color: #8da1af;
 }
 .login-input-border .login-input.data-v-329f455c {
     height: 50rpx;

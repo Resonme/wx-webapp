@@ -103,6 +103,25 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var m0 = _vm.mCheckRequired()
+
+  if (!_vm._isMounted) {
+    _vm.e0 = function($event) {
+      _vm.focus = "account"
+    }
+
+    _vm.e1 = function($event) {
+      _vm.focus = ""
+    }
+
+    _vm.e2 = function($event) {
+      _vm.focus = "password"
+    }
+
+    _vm.e3 = function($event) {
+      _vm.focus = ""
+    }
+  }
+
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -154,6 +173,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 var _data = __webpack_require__(/*! @/utils/data.js */ 25);
 var _form = _interopRequireDefault(__webpack_require__(/*! @/mixins/form.js */ 26));
 var _login2 = __webpack_require__(/*! @/api/login.js */ 27);
@@ -163,6 +186,7 @@ var _index = _interopRequireDefault(__webpack_require__(/*! @/components/app-sel
   data: function data() {
     return {
       loading: false, //提交loading
+      focus: '',
       form: {
         type: 2,
         account: '',

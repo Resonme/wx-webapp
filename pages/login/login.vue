@@ -1,9 +1,13 @@
 <template>
 	<div class="login">
 		<h1 class="login-title">登录</h1>
-		<div class="login-input-border"><input class="login-input" type="text" v-model="form.account" placeholder="请输入用户名" placeholder-style="color:#ccc;" /></div>
+		<div class="login-input-border">
+			<span class="login-input-label" v-if="form.account || focus === 'account'">用户名</span>
+			<input class="login-input" type="text" v-model="form.account" placeholder="请输入用户名" @focus="focus = 'account'" @blur="focus=''" placeholder-class="uni-input-placeholder" />
+		</div>
 		<div class="login-input-border input-password">
-			<input class="mui-input-clear login-input" type="password" v-model="form.password" placeholder="请输入密码" placeholder-style="color:#ccc;" />
+			<span class="login-input-label" v-if="form.password || focus === 'password'">密码</span>
+			<input class="login-input" type="password" :password="true" v-model="form.password" placeholder="请输入密码" @focus="focus = 'password'" @blur="focus=''"  placeholder-class="uni-input-placeholder" />
 		</div>
 		<div class="login-info">若忘记密码，可联系管理员重置密码</div>
 		<button class="login-btn" type="primary" :disabled="mCheckRequired()" :loading="loading" @click="login">登 录</button>
@@ -20,6 +24,7 @@ export default {
 	data() {
 		return {
 			loading: false, //提交loading
+			focus: '',
 			form: {
 				type: 2,
 				account: '',
@@ -71,7 +76,14 @@ export default {
 	position: relative;
 	margin-bottom: 34upx;
 	height: 120upx;
-	padding-top: 46upx;
+	padding: 0 0 24upx;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	.login-input-label {
+		font-size: $uni-font-size-base;
+		color: #8da1af;
+	}
 	.login-input {
 		height: 50upx;
 		line-height: 50upx;
