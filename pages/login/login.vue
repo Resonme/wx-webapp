@@ -1,89 +1,52 @@
 <template>
-	<div class="content">
-		<!-- 表单 -->
-		<div class="login-form">
-			<div class="label-item">
-				<div class="label"><i class="iconfont">&#xe6a8;</i></div>
-				<div class="info"><input type="text" v-model="form.account" placeholder="请输入用户名/手机号" /></div>
-			</div>
-			<div class="label-item top-border">
-				<div class="label"><i class="iconfont">&#xe600;</i></div>
-				<div class="info"><input type="password" v-model="form.password" class="mui-input-clear" placeholder="请输入密码" /></div>
-			</div>
+	<div class="login">
+		<h1 class="login-title">登录</h1>
+		<div class="login-input-border"><input class="login-input" type="text" v-model="form.account" placeholder="请输入用户名" placeholder-style="color:#ccc;" /></div>
+		<div class="login-input-border input-password">
+			<input class="mui-input-clear login-input" type="password" v-model="form.password" placeholder="请输入密码" placeholder-style="color:#ccc;" />
 		</div>
-		<div class="login-form-tools">
-			<div class="login-form-remind">若忘记密码，可联系管理员重置密码</div>
-			<div class="login-form-forget"><a>忘记密码？</a></div>
-		</div>
-		<div class="submit-btn"><button type="primary" :loading="loading" @click="login">登 录</button></div>
-
-		<!-- 自动登录载入中 -->
-		<div class="auto-login-container" v-if="autoLoading">
-			<image class="img" src="/static/images/auto-login.png" mode=""></image>
-			<div class="loading">
-				<span class="loading-circle"></span>
-				<span class="loading-circle" style="animation-delay:0.3s;"></span>
-				<span class="loading-circle" style="animation-delay:0.6s;"></span>
-			</div>
-		</div>
-
-		<!-- end -->
+		<div class="login-info">若忘记密码，可联系管理员重置密码</div>
+		<button class="login-btn" type="primary" :disabled="mCheckRequired()" :loading="loading" @click="login">登 录</button>
 	</div>
 </template>
 
 <script>
 import { setLoginInfo, getLoginInfo, removeLoginInfo } from '@/utils/data.js';
+import formMixins from '@/mixins/form.js';
+import { Login } from '@/api/login.js';
+import AppSelect from '@/components/app-select/index.vue';
 
 export default {
 	data() {
 		return {
-			autoLoading: true,
-			loading: false,
+			loading: false, //提交loading
 			form: {
+				type: 2,
 				account: '',
 				password: ''
 			}
 		};
 	},
-
 	created() {
 		const loginInfo = getLoginInfo();
 		if (loginInfo && loginInfo.account && loginInfo.password) {
 			this.form.account = loginInfo.account;
 			this.form.password = loginInfo.password;
 			this.login();
-		} else {
-			this.autoLoading = false;
 		}
 	},
-
+	mixins: [formMixins],
 	methods: {
 		// 登录
 		async login() {
-			if (!this.form.account || !this.form.password) {
-				this.$alert('用户名或密码为空！');
-				return;
-			}
+			this.loading = true;
 			try {
-				this.loading = true;
-				const res = await this.$request({
-					url: '/auth/login',
-					method: 'POST',
-					params: {
-						account: this.form.account,
-						password: this.form.password
-					}
-				});
+				const res = await Login({ ...this.form });
+				setLoginInfo({ ...this.form, access_token: res.access_token }); // 缓存登录数据
 				this.loading = false;
-				setLoginInfo({
-					...this.form,
-					auid: res.auid,
-					access_token: res.access_token
-				});
 				uni.reLaunch({ url: '/pages/tabbar/index' });
 			} catch (e) {
 				//TODO handle the exception
-				this.autoLoading = false;
 				this.loading = false;
 				this.$alert('用户名或密码错误！');
 			}
@@ -94,99 +57,52 @@ export default {
 
 <style lang="scss" scoped>
 // 表单
-.login-form {
-	width: 694upx;
-	margin: 40upx auto 0;
-	background: #ffffff;
-	border: 1px solid #eaeaea;
-	border-radius: 10upx;
+.login {
+	padding: 160upx 80upx;
+}
+.login-title {
+	margin-bottom: 60upx;
+	font-size: $uni-font-size-title;
+	color: $uni-color-title;
+	letter-spacing: 1.2upx;
+}
 
-	.label-item {
-		display: flex;
-		font-size: 28upx;
-		line-height: 80upx;
-		.label {
-			flex: 0 0 70upx;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-		.info {
-			flex: 1;
-			display: flex;
-			align-items: center;
-		}
-
-		&.top-border {
-			position: relative;
-			&:before {
-				position: absolute;
-				right: 0;
-				top: 0;
-				left: 0;
-				height: 1px;
-				content: '';
-				transform: scaleY(0.5);
-				background-color: #eaeaea;
-			}
-		}
+.login-input-border {
+	position: relative;
+	margin-bottom: 34upx;
+	height: 120upx;
+	padding-top: 46upx;
+	.login-input {
+		height: 50upx;
+		line-height: 50upx;
+		font-size: 36upx;
+		color: $uni-text-color;
 	}
-}
-.login-form-tools {
-	margin-top: 20upx;
-	padding: 0 20upx;
-	font-size: 28upx;
-	overflow: hidden;
-	display: flex;
-	justify-content: space-between;
-}
-.submit-btn {
-	margin-top: 60upx;
-	padding: 30upx;
-}
 
-// 自动登录加载
-@keyframes loading-animation {
-	from {
-		background: #bababa;
+	&.input-password {
+		margin-bottom: 20upx;
 	}
-	to {
-		background: #dadada;
+
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		border-bottom: 1px solid $uni-border-color;
+		transform: translateY(0.5);
 	}
 }
 
-.auto-login-container {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background: #fff;
-	z-index: 9;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+.login-info {
+	margin-bottom: 80upx;
+	font-size: 26upx;
+	color: $uni-text-color-grey;
+}
 
-	.img {
-		margin-top: 10vh;
-		width: 194upx;
-		height: 234upx;
-	}
-
-	.loading {
-		margin-top: 30upx;
-		display: flex;
-		justify-content: center;
-		.loading-circle {
-			width: 16upx;
-			height: 16upx;
-			animation: loading-animation 0.9s infinite;
-			background: #dadada;
-			border-radius: 50%;
-			& + .loading-circle {
-				margin-left: 20upx;
-			}
-		}
-	}
+.login-btn {
+	box-shadow: 0 10upx 10upx 0 rgba(83, 185, 151, 0.2);
+	border-radius: 100upx;
+	border-radius: 50upx;
 }
 </style>

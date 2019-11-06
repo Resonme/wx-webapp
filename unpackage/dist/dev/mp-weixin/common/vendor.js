@@ -8406,7 +8406,7 @@ module.exports = {"_from":"@dcloudio/uni-stat@next","_id":"@dcloudio/uni-stat@2.
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/login/login": { "navigationBarTitleText": "uni-app" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "uni-app", "navigationBarBackgroundColor": "#F8F8F8", "backgroundColor": "#F8F8F8" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/login/login": { "navigationStyle": "custom", "usingComponents": {} }, "pages/tabbar/home": { "navigationBarTitleText": "首页", "usingComponents": {} }, "pages/tabbar/order": { "navigationBarTitleText": "订单", "usingComponents": {} }, "pages/tabbar/mine": { "navigationBarTitleText": "我的", "usingComponents": {} } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "uni-app", "navigationBarBackgroundColor": "#F8F8F8", "backgroundColor": "#F8F8F8" } };exports.default = _default;
 
 /***/ }),
 /* 8 */
@@ -8423,9 +8423,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /* 9 */,
 /* 10 */,
 /* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */
+/* 12 */
 /*!********************************************************************!*\
   !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
   \********************************************************************/
@@ -8531,7 +8529,7 @@ function normalizeComponent (
 
 
 /***/ }),
-/* 15 */
+/* 13 */
 /*!*****************************************************!*\
   !*** E:/git__pro/wx-webapp/assets/style/index.scss ***!
   \*****************************************************/
@@ -8541,301 +8539,7 @@ function normalizeComponent (
 // extracted by mini-css-extract-plugin
 
 /***/ }),
-/* 16 */
-/*!**********************************************!*\
-  !*** E:/git__pro/wx-webapp/utils/request.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-
-
-
-var _data = __webpack_require__(/*! ./data.js */ 17);
-var _tools = __webpack_require__(/*! ./tools.js */ 18);
-var _config = __webpack_require__(/*! ./config.js */ 19); /**
-                                       * axios 封装
-                                       * Created by liliang on 2019/11/05.
-                                       */var Request = function Request(_ref) {var url = _ref.url,method = _ref.method,params = _ref.params;return new Promise(function (resolve, reject) {
-    var loginInfo = (0, _data.getLoginInfo)();
-    var data = params ? (0, _tools.filterObject)(params) : {};
-    uni.request({
-      url: _config.BASE_ADRESS.REQUEST_URL + url,
-      method: method || "GET",
-      data: data,
-      header: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'auid': loginInfo ? loginInfo.auid : '',
-        'access_token': loginInfo ? loginInfo.access_token : '' },
-
-      success: function success(res) {
-        if (res && res.data && res.data.code === 0) {
-          resolve(res.data);
-        } else {
-          console.log('请求异常：' + _config.BASE_ADRESS.REQUEST_URL + url);
-          console.log('系统异常：' + JSON.stringify(res.data));
-          uni.showToast({ title: res.data.msg || '系统异常', icon: 'none' });
-          reject(res.data);
-        }
-      },
-      fail: function fail(err) {
-        console.log('请求失败 ：' + JSON.stringify(err) + ' 参数：' + JSON.stringify(data));
-        uni.showToast({ title: '系统异常', icon: 'none' });
-        reject(err);
-      } });
-
-  });
-};var _default =
-
-Request;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 17 */
-/*!*******************************************!*\
-  !*** E:/git__pro/wx-webapp/utils/data.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.setLoginInfo = setLoginInfo;exports.getLoginInfo = getLoginInfo;exports.removeLoginInfo = removeLoginInfo;exports.clearStorage = clearStorage; /**
-                                                                                                                                                                                                                                   * app 缓存数据
-                                                                                                                                                                                                                                   * Created by liliang on 2019/11/05.
-                                                                                                                                                                                                                                   */
-var user_login_key = 'YB_APP_LOGIN_INFO';
-var time = 30 * 24 * 60 * 60 * 1000; // 30天过期
-
-// 用户 缓存登录数据
-function setLoginInfo(user) {
-  var data = {
-    time: +new Date(),
-    content: user };
-
-  console.log('缓存登录信息...' + user_login_key, JSON.stringify(data));
-  uni.setStorageSync(user_login_key, data);
-}
-// 用户 获取缓存数据
-function getLoginInfo() {
-  var info = uni.getStorageSync(user_login_key);
-  if (!info) {return null;}
-  if (+new Date() - info.time > time) {
-    uni.removeStorageSync(user_login_key);
-    console.log('登录信息过期 已清除 ... ' + user_login_key);
-    return null;
-  }
-  return info.content;
-}
-// 用户 清楚登录数据
-function removeLoginInfo() {
-  console.log('清除登录信息 ... ' + user_login_key);
-  uni.removeStorageSync(user_login_key);
-}
-
-// 系统 清楚所有缓存
-function clearStorage() {
-  uni.clearStorageSync();
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 18 */
-/*!********************************************!*\
-  !*** E:/git__pro/wx-webapp/utils/tools.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.filterObject = filterObject;exports.getImgFullPath = getImgFullPath;exports.exchangDate = exchangDate;exports.parseTime = parseTime;exports.formatTime = formatTime;exports.arrayBreakRepeat = arrayBreakRepeat;
-
-
-
-var _config = __webpack_require__(/*! ./config.js */ 19); /**
-                                       * app全局工具
-                                       * Created by liliang on 2019/11/05.
-                                       */ // 参数过滤
-function filterObject(obj) {var copyObj = {};
-  for (var key in obj) {
-    if (obj[key] !== null && obj[key] !== "") {
-      copyObj[key] = obj[key];
-    }
-  }
-  return copyObj;
-}
-
-// 图片完整路径转换
-function getImgFullPath(url, w, h, q) {
-  var match = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
-  if (!url || url.length < 1 || match.test(url)) {
-    return url ? url.replace(/\\/g, '/') : '';
-  }
-  var fullpath = _config.BASE_ADRESS.IMG_BASE_URL + '/' + url;
-  if (w && h) {
-    fullpath = fullpath + '?w=' + w + '&h=' + h;
-  }
-  if (q) {
-    fullpath = w && h ? fullpath + '&q=' + q : fullpath + '?q=' + q;
-  }
-  console.log('match.test(url)' + url, fullpath);
-  return fullpath;
-}
-
-function exchangDate(date, fmt) {
-  var o = {
-    'M+': date.getMonth() + 1, // 月份
-    'd+': date.getDate(), // 日
-    'h+': date.getHours(), // 小时
-    'm+': date.getMinutes(), // 分
-    's+': date.getSeconds(), // 秒
-    'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
-    'S': date.getMilliseconds() // 毫秒
-  };
-  if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
-  }
-  for (var k in o) {
-    if (new RegExp('(' + k + ')').test(fmt)) {
-      fmt = fmt.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length));
-    }
-  }
-  return fmt;
-}
-
-// 时间转换
-function parseTime(time, cFormat) {
-  if (arguments.length === 0) {
-    return null;
-  }
-  var format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}';
-  var date;
-  if (typeof time === 'object') {
-    date = time;
-  } else {
-    if (typeof time === 'string' && /^[0-9]+$/.test(time)) {
-      time = parseInt(time);
-    }
-    if (typeof time === 'number' && time.toString().length === 10) {
-      time = time * 1000;
-    }
-    date = new Date(time);
-  }
-  var formatObj = {
-    y: date.getFullYear(),
-    m: date.getMonth() + 1,
-    d: date.getDate(),
-    h: date.getHours(),
-    i: date.getMinutes(),
-    s: date.getSeconds(),
-    a: date.getDay() };
-
-  var time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, function (result, key) {
-    var value = formatObj[key];
-    // Note: getDay() returns 0 on Sunday
-    if (key === 'a') {
-      return ['日', '一', '二', '三', '四', '五', '六'][value];
-    }
-    if (result.length > 0 && value < 10) {
-      value = '0' + value;
-    }
-    return value || 0;
-  });
-  return time_str;
-}
-
-// 时间格式
-function formatTime(time, option) {
-  if (('' + time).length === 10) {
-    time = parseInt(time) * 1000;
-  } else {
-    time = +time;
-  }
-  var d = new Date(time);
-  var now = Date.now();
-
-  var diff = (now - d) / 1000;
-
-  if (diff < 30) {
-    return '刚刚';
-  } else if (diff < 3600) {
-    // less 1 hour
-    return Math.ceil(diff / 60) + '分钟前';
-  } else if (diff < 3600 * 24) {
-    return Math.ceil(diff / 3600) + '小时前';
-  } else if (diff < 3600 * 24 * 2) {
-    return '1天前';
-  }
-  if (option) {
-    return parseTime(time, option);
-  } else {
-    return (
-      d.getMonth() +
-      1 +
-      '月' +
-      d.getDate() +
-      '日' +
-      d.getHours() +
-      '时' +
-      d.getMinutes() +
-      '分');
-
-  }
-}
-
-// 数组去重
-function arrayBreakRepeat(arr) {
-  var result = [];
-  var obj = {};var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
-    for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var i = _step.value;
-      if (!obj[i]) {
-        result.push(i);
-        obj[i] = 1;
-      }
-    }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
-  return result;
-}
-
-/***/ }),
-/* 19 */
-/*!*********************************************!*\
-  !*** E:/git__pro/wx-webapp/utils/config.js ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.BASE_ADRESS = void 0; /**
-                                                                                                          * app环境地址相关配置
-                                                                                                          * Created by liliang on 2019/11/05.
-                                                                                                          */
-
-var PACKAGE_ENV = 'intnet';
-
-// 环境配置
-var ENV_URL = {
-  // 外网47
-  outnet: {
-    APP_ID: 'wxfd5bcc9893fac909', // 小程序id
-    REQUEST_URL: 'http://wx.lzyzn.net', // 接口地址
-    IMG_BASE_URL: 'https://wx.lzyzn.net', // 图片地址
-    IMG_UPLOAD_URL: 'https://wx.lzyzn.net' // 图片上传地址
-  },
-
-  // 内网183
-  intnet: {
-    APP_ID: 'wx15135e171ce2a846', // 公众号id
-    REQUEST_URL: 'https://wx.zmnbx.com:8443', // 接口地址
-    IMG_BASE_URL: 'http://47.98.186.110', // 图片地址
-    IMG_UPLOAD_URL: 'https://wx.zmnbx.com:8444/' // 图片上传地址
-  } };
-
-
-var BASE_ADRESS = ENV_URL[PACKAGE_ENV];exports.BASE_ADRESS = BASE_ADRESS;
-
-/***/ }),
-/* 20 */
+/* 14 */
 /*!*********************************************!*\
   !*** E:/git__pro/wx-webapp/utils/uniapp.js ***!
   \*********************************************/
@@ -8876,24 +8580,61 @@ function $navigateTo(url) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
+/* 15 */
+/*!*********************************************!*\
+  !*** E:/git__pro/wx-webapp/utils/config.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.BASE_ADRESS = void 0; /**
+                                                                                                          * app环境地址相关配置
+                                                                                                          * Created by liliang on 2019/11/05.
+                                                                                                          */
+
+var PACKAGE_ENV = 'intnet';
+
+// 环境配置
+var ENV_URL = {
+  // 外网47
+  outnet: {
+    APP_ID: 'wxfd5bcc9893fac909', // 小程序id
+    REQUEST_URL: 'http://wx.lzyzn.net', // 接口地址
+    IMG_BASE_URL: 'https://wx.lzyzn.net', // 图片地址
+    IMG_UPLOAD_URL: 'https://wx.lzyzn.net' // 图片上传地址
+  },
+
+  // 内网183
+  intnet: {
+    APP_ID: 'wx15135e171ce2a846', // 公众号id
+    REQUEST_URL: 'https://wx.zmnbx.com:8443', // 接口地址
+    IMG_BASE_URL: 'http://47.98.186.110', // 图片地址
+    IMG_UPLOAD_URL: 'https://wx.zmnbx.com:8444/' // 图片上传地址
+  } };
+
+
+var BASE_ADRESS = ENV_URL[PACKAGE_ENV];exports.BASE_ADRESS = BASE_ADRESS;
+
+/***/ }),
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
 /* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */
+/* 22 */
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 28);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 23);
 
 
 /***/ }),
-/* 28 */
+/* 23 */
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -8924,7 +8665,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 29);
+module.exports = __webpack_require__(/*! ./runtime */ 24);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -8940,7 +8681,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 29 */
+/* 24 */
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -9669,6 +9410,318 @@ if (hadRuntime) {
   })() || Function("return this")()
 );
 
+
+/***/ }),
+/* 25 */
+/*!*******************************************!*\
+  !*** E:/git__pro/wx-webapp/utils/data.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.setLoginInfo = setLoginInfo;exports.getLoginInfo = getLoginInfo;exports.removeLoginInfo = removeLoginInfo;exports.clearStorage = clearStorage; /**
+                                                                                                                                                                                                                                   * app 缓存数据
+                                                                                                                                                                                                                                   * Created by liliang on 2019/11/05.
+                                                                                                                                                                                                                                   */
+var user_login_key = 'YB_APP_LOGIN_INFO';
+var time = 30 * 24 * 60 * 60 * 1000; // 30天过期
+
+// 用户 缓存登录数据
+function setLoginInfo(user) {
+  var data = {
+    time: +new Date(),
+    content: user };
+
+  console.log('缓存登录信息...' + user_login_key, JSON.stringify(data));
+  uni.setStorageSync(user_login_key, data);
+}
+// 用户 获取缓存数据
+function getLoginInfo() {
+  var info = uni.getStorageSync(user_login_key);
+  if (!info) {return null;}
+  if (+new Date() - info.time > time) {
+    uni.removeStorageSync(user_login_key);
+    console.log('登录信息过期 已清除 ... ' + user_login_key);
+    return null;
+  }
+  return info.content;
+}
+// 用户 清楚登录数据
+function removeLoginInfo() {
+  console.log('清除登录信息 ... ' + user_login_key);
+  uni.removeStorageSync(user_login_key);
+}
+
+// 系统 清楚所有缓存
+function clearStorage() {
+  uni.clearStorageSync();
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 26 */
+/*!********************************************!*\
+  !*** E:/git__pro/wx-webapp/mixins/form.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * form表单mixins
+                                                                                                      * Created by liliang on 2019/11/06.
+                                                                                                      */
+
+var mixin = {
+  data: function data() {
+    return {};
+  },
+
+  methods: {
+    // 监测表单必填项
+    mCheckRequired: function mCheckRequired() {var _this = this;var field = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'form';var arr = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+      var check = false;
+      arr = arr && arr.length > 0 ? arr : Object.keys(this[field]);
+      var res = arr.filter(function (item) {return !_this[field][item];});
+      return res && res.length > 0 ? true : false;
+    } } };var _default =
+
+
+
+
+mixin;exports.default = _default;
+
+/***/ }),
+/* 27 */
+/*!******************************************!*\
+  !*** E:/git__pro/wx-webapp/api/login.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.Login = Login;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 22));
+
+
+
+var _request = _interopRequireDefault(__webpack_require__(/*! @/utils/request */ 28));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function
+
+
+Login(_x) {return _Login.apply(this, arguments);}function _Login() {_Login = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(params) {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:return _context.abrupt("return",
+            (0, _request.default)({
+              url: '/auth/login',
+              method: 'POST',
+              params: params }));case 1:case "end":return _context.stop();}}}, _callee, this);}));return _Login.apply(this, arguments);}
+
+/***/ }),
+/* 28 */
+/*!**********************************************!*\
+  !*** E:/git__pro/wx-webapp/utils/request.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+
+
+var _data = __webpack_require__(/*! ./data.js */ 25);
+var _tools = __webpack_require__(/*! ./tools.js */ 29);
+var _config = __webpack_require__(/*! ./config.js */ 15); /**
+                                       * axios 封装
+                                       * Created by liliang on 2019/11/05.
+                                       */var Request = function Request(_ref) {var url = _ref.url,method = _ref.method,params = _ref.params;return new Promise(function (resolve, reject) {
+    var loginInfo = (0, _data.getLoginInfo)();
+    var data = params ? (0, _tools.filterObject)(params) : {};
+    uni.request({
+      url: _config.BASE_ADRESS.REQUEST_URL + url,
+      method: method || "GET",
+      data: data,
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'auid': loginInfo ? loginInfo.auid : '',
+        'access_token': loginInfo ? loginInfo.access_token : '' },
+
+      success: function success(res) {
+        if (res && res.data && res.data.code === 0) {
+          resolve(res.data);
+        } else {
+          console.log('请求异常：' + _config.BASE_ADRESS.REQUEST_URL + url);
+          console.log('系统异常：' + JSON.stringify(res.data));
+          uni.showToast({ title: res.data.msg || '系统异常', icon: 'none' });
+          reject(res.data);
+        }
+      },
+      fail: function fail(err) {
+        console.log('请求失败 ：' + JSON.stringify(err) + ' 参数：' + JSON.stringify(data));
+        uni.showToast({ title: '系统异常', icon: 'none' });
+        reject(err);
+      } });
+
+  });
+};var _default =
+
+Request;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 29 */
+/*!********************************************!*\
+  !*** E:/git__pro/wx-webapp/utils/tools.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.filterObject = filterObject;exports.getImgFullPath = getImgFullPath;exports.exchangDate = exchangDate;exports.parseTime = parseTime;exports.formatTime = formatTime;exports.arrayBreakRepeat = arrayBreakRepeat;
+
+
+
+var _config = __webpack_require__(/*! ./config.js */ 15); /**
+                                       * app全局工具
+                                       * Created by liliang on 2019/11/05.
+                                       */ // 参数过滤
+function filterObject(obj) {var copyObj = {};
+  for (var key in obj) {
+    if (obj[key] !== null && obj[key] !== "") {
+      copyObj[key] = obj[key];
+    }
+  }
+  return copyObj;
+}
+
+// 图片完整路径转换
+function getImgFullPath(url, w, h, q) {
+  var match = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+  if (!url || url.length < 1 || match.test(url)) {
+    return url ? url.replace(/\\/g, '/') : '';
+  }
+  var fullpath = _config.BASE_ADRESS.IMG_BASE_URL + '/' + url;
+  if (w && h) {
+    fullpath = fullpath + '?w=' + w + '&h=' + h;
+  }
+  if (q) {
+    fullpath = w && h ? fullpath + '&q=' + q : fullpath + '?q=' + q;
+  }
+  console.log('match.test(url)' + url, fullpath);
+  return fullpath;
+}
+
+function exchangDate(date, fmt) {
+  var o = {
+    'M+': date.getMonth() + 1, // 月份
+    'd+': date.getDate(), // 日
+    'h+': date.getHours(), // 小时
+    'm+': date.getMinutes(), // 分
+    's+': date.getSeconds(), // 秒
+    'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
+    'S': date.getMilliseconds() // 毫秒
+  };
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+  }
+  for (var k in o) {
+    if (new RegExp('(' + k + ')').test(fmt)) {
+      fmt = fmt.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length));
+    }
+  }
+  return fmt;
+}
+
+// 时间转换
+function parseTime(time, cFormat) {
+  if (arguments.length === 0) {
+    return null;
+  }
+  var format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}';
+  var date;
+  if (typeof time === 'object') {
+    date = time;
+  } else {
+    if (typeof time === 'string' && /^[0-9]+$/.test(time)) {
+      time = parseInt(time);
+    }
+    if (typeof time === 'number' && time.toString().length === 10) {
+      time = time * 1000;
+    }
+    date = new Date(time);
+  }
+  var formatObj = {
+    y: date.getFullYear(),
+    m: date.getMonth() + 1,
+    d: date.getDate(),
+    h: date.getHours(),
+    i: date.getMinutes(),
+    s: date.getSeconds(),
+    a: date.getDay() };
+
+  var time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, function (result, key) {
+    var value = formatObj[key];
+    // Note: getDay() returns 0 on Sunday
+    if (key === 'a') {
+      return ['日', '一', '二', '三', '四', '五', '六'][value];
+    }
+    if (result.length > 0 && value < 10) {
+      value = '0' + value;
+    }
+    return value || 0;
+  });
+  return time_str;
+}
+
+// 时间格式
+function formatTime(time, option) {
+  if (('' + time).length === 10) {
+    time = parseInt(time) * 1000;
+  } else {
+    time = +time;
+  }
+  var d = new Date(time);
+  var now = Date.now();
+
+  var diff = (now - d) / 1000;
+
+  if (diff < 30) {
+    return '刚刚';
+  } else if (diff < 3600) {
+    // less 1 hour
+    return Math.ceil(diff / 60) + '分钟前';
+  } else if (diff < 3600 * 24) {
+    return Math.ceil(diff / 3600) + '小时前';
+  } else if (diff < 3600 * 24 * 2) {
+    return '1天前';
+  }
+  if (option) {
+    return parseTime(time, option);
+  } else {
+    return (
+      d.getMonth() +
+      1 +
+      '月' +
+      d.getDate() +
+      '日' +
+      d.getHours() +
+      '时' +
+      d.getMinutes() +
+      '分');
+
+  }
+}
+
+// 数组去重
+function arrayBreakRepeat(arr) {
+  var result = [];
+  var obj = {};var _iteratorNormalCompletion = true;var _didIteratorError = false;var _iteratorError = undefined;try {
+    for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {var i = _step.value;
+      if (!obj[i]) {
+        result.push(i);
+        obj[i] = 1;
+      }
+    }} catch (err) {_didIteratorError = true;_iteratorError = err;} finally {try {if (!_iteratorNormalCompletion && _iterator.return != null) {_iterator.return();}} finally {if (_didIteratorError) {throw _iteratorError;}}}
+  return result;
+}
 
 /***/ })
 ]]);

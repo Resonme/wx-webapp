@@ -2,3 +2,9 @@
 @import 'iconfont.scss';
 @import 'uni.scss';
 @import 'app.scss';
+
+*,
+text,
+view {
+	box-sizing: border-box;
+}

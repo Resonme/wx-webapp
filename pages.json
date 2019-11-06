@@ -1,16 +1,45 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页
-		{
-			"path": "pages/login/login",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
-		}
+	"pages": [
+		// pages数组中第一项表示应用启动页
+		// { "path": "pages/login/autoLogin", "style": { "navigationStyle": "custom" } },
+		{ "path": "pages/login/login", "style": { "navigationStyle": "custom" } },
+		{ "path": "pages/tabbar/home", "style": { "navigationBarTitleText": "首页" } },
+		{ "path": "pages/tabbar/order", "style": { "navigationBarTitleText": "订单" } },
+		{ "path": "pages/tabbar/mine", "style": { "navigationBarTitleText": "我的" } }
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+
+	"tabBar": {
+		"color": "#999",
+		"selectedColor": "#333",
+		"borderStyle": "white",
+		"backgroundColor": "#ffffff",
+		// "fontSize": "19px", // App 2.3.4+
+		// "iconWidth": "36px", // App 2.3.4+
+		// "spacing": "10px", // App 2.3.4+
+		"list": [{
+				"pagePath": "pages/tabbar/home",
+				"iconPath": "static/tabbar/home.png",
+				"selectedIconPath": "static/tabbar/home-active.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/tabbar/order",
+				"iconPath": "static/tabbar/event.png",
+				"selectedIconPath": "static/tabbar/event-active.png",
+				"text": "订单"
+			},
+			{
+				"pagePath": "pages/tabbar/mine",
+				"iconPath": "static/tabbar/user.png",
+				"selectedIconPath": "static/tabbar/user-active.png",
+				"text": "我的"
+			}
+		]
 	}
 }

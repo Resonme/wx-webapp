@@ -3,10 +3,10 @@
  * Created by liliang on 2019/11/05.
  */
 
-export function isvalidUsername(str) {
-  const valid_map = ['admin', 'editor']
-  return valid_map.indexOf(str.trim()) >= 0
-}
+// export function isvalidUsername(str) {
+//   const valid_map = ['admin', 'editor']
+//   return valid_map.indexOf(str.trim()) >= 0
+// }
 
 /* 合法uri*/
 export function validateURL(textval) {
