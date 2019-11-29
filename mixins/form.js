@@ -14,7 +14,7 @@ const mixin = {
 			let check = false
 			arr = arr && arr.length > 0 ? arr : Object.keys(this[field])
 			const res = arr.filter(item => !this[field][item])
-			return res && res.length > 0 ? true : false
+			return res && res.length > 0 ? false : true
 		}
 
 	}

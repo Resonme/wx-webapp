@@ -27,7 +27,6 @@ export function getLoginInfo() {
 }
 // 用户 清楚登录数据
 export function removeLoginInfo() {
-	console.log('清除登录信息 ... ' + user_login_key)
 	uni.removeStorageSync(user_login_key)
 }
 

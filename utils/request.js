@@ -23,8 +23,7 @@ const Request = function({ url, method, params }) {
 				if (res && res.data && res.data.code === 0) {
 					resolve(res.data)
 				} else {
-					console.log('请求异常：' + BASE_ADRESS.REQUEST_URL + url)
-					console.log('系统异常：' + JSON.stringify(res.data))
+					console.log('请求异常：' + BASE_ADRESS.REQUEST_URL + ' => ' + url + JSON.stringify(res.data))
 					uni.showToast({ title: res.data.msg || '系统异常', icon: 'none' });
 					reject(res.data)
 				}

@@ -28,3 +28,10 @@ export function $navigateTo(url) {
 		url
 	})
 }
+
+// 路由返回
+export function $back(delta = 1) {
+	uni.navigateBack({
+		delta
+	})
+}

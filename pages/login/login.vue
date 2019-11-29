@@ -2,15 +2,32 @@
 	<div class="login">
 		<h1 class="login-title">登录</h1>
 		<div class="login-input-border">
-			<span class="login-input-label" v-if="form.account || focus === 'account'">用户名</span>
-			<input class="login-input" type="text" v-model="form.account" placeholder="请输入用户名" @focus="focus = 'account'" @blur="focus=''" placeholder-class="uni-input-placeholder" />
+			<span class="login-input-label" :class="{ 'login-input-label--show': form.account || focus === 'account' }">用户名</span>
+			<input
+				class="login-input"
+				type="text"
+				v-model="form.account"
+				placeholder="请输入用户名"
+				@focus="focus = 'account'"
+				@blur="focus = ''"
+				placeholder-class="uni-input-placeholder"
+			/>
 		</div>
-		<div class="login-input-border input-password">
-			<span class="login-input-label" v-if="form.password || focus === 'password'">密码</span>
-			<input class="login-input" type="password" :password="true" v-model="form.password" placeholder="请输入密码" @focus="focus = 'password'" @blur="focus=''"  placeholder-class="uni-input-placeholder" />
+		<div class="login-input-border">
+			<span class="login-input-label" :class="{ 'login-input-label--show': form.password || focus === 'password' }">密码</span>
+			<input
+				class="login-input"
+				type="password"
+				:password="true"
+				v-model="form.password"
+				placeholder="请输入密码"
+				@focus="focus = 'password'"
+				@blur="focus = ''"
+				placeholder-class="uni-input-placeholder"
+			/>
 		</div>
 		<div class="login-info">若忘记密码，可联系管理员重置密码</div>
-		<button class="login-btn" type="primary" :disabled="mCheckRequired()" :loading="loading" @click="login">登 录</button>
+		<button class="login-btn" type="primary" :disabled="loading || !mCheckRequired('form')" :loading="loading" @click="login">登 录</button>
 	</div>
 </template>
 
@@ -74,25 +91,27 @@ export default {
 
 .login-input-border {
 	position: relative;
-	margin-bottom: 34upx;
 	height: 120upx;
 	padding: 0 0 24upx;
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-end;
+	justify-content: space-between;
+	& + .login-input-border {
+		margin-top: 34upx;
+	}
 	.login-input-label {
 		font-size: $uni-font-size-base;
 		color: #8da1af;
+		visibility: hidden;
+		&--show {
+			visibility: visible;
+		}
 	}
 	.login-input {
 		height: 50upx;
 		line-height: 50upx;
 		font-size: 36upx;
 		color: $uni-text-color;
-	}
-
-	&.input-password {
-		margin-bottom: 20upx;
 	}
 
 	&::after {
@@ -107,14 +126,30 @@ export default {
 }
 
 .login-info {
-	margin-bottom: 80upx;
+	margin-top: 20upx;
 	font-size: 26upx;
-	color: $uni-text-color-grey;
+	color: #999999;
 }
 
 .login-btn {
+	width: 420upx;
+	height: 90upx;
+	margin-top: 80upx;
+	line-height: 90upx;
+	font-size: 30upx;
+	color: #ffffff;
 	box-shadow: 0 10upx 10upx 0 rgba(83, 185, 151, 0.2);
 	border-radius: 100upx;
 	border-radius: 50upx;
+	background-color: #4fc294;
+	&::after {
+		border-width: 0;
+	}
+	&[disabled][type='primary'] {
+		background-color: #4fc294;
+	}
+	&[disabled][type='primary']::after {
+		background-color: rgba(255, 255, 255, 0.5);
+	}
 }
 </style>

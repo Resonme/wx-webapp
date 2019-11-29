@@ -1,15 +1,20 @@
 <template>
-	<picker @change="onPickerChange" :value="current" :range="datas" range-key="label">
-		<view class="app-select-value">
-			<view v-if="currentValue" class="app-select-active">{{ datas[current].label }}</view>
-			<view v-else class="app-select-unselect">{{ placeholder }}</view>
-			<i class="iconfont app-select-icon">→</i>
+	<picker mode="selector" @change="onPickerChange" :value="current" :range="datas" range-key="label">
+		<view class="app-select-value" :class="'app-select-value--' + size">
+			<view v-if="currentValue == ''" class="app-select-text app-select-text--unselect">{{ placeholder }}</view>
+			<view v-else class="app-select-text">{{ datas[current].label }}</view>
+			<view class="app-select-icon"><uni-icons class="uni-icon-wrapper" :size="20" color="#333" type="arrowright" /></view>
 		</view>
 	</picker>
 </template>
 
 <script>
+import uniIcons from '../uni-icons/uni-icons.vue';
 export default {
+	name: 'appSelect',
+	components: {
+		uniIcons
+	},
 	props: {
 		value: {
 			required: true
@@ -18,9 +23,10 @@ export default {
 			type: String,
 			default: '请选择'
 		},
-		isNull: {
-			type: Boolean,
-			default: true
+		// sm base lg
+		size: {
+			type: String,
+			default: 'base'
 		},
 		datas: {
 			type: Array,
@@ -37,7 +43,7 @@ export default {
 	},
 	computed: {
 		list() {
-			return this.isNull ? [{ label: '请选择', value: '' }, ...this.datas] : [...this.datas];
+			return [...this.datas];
 		}
 	},
 	created() {
@@ -69,20 +75,31 @@ export default {
 <style lang="scss" scoped>
 .app-select-value {
 	display: flex;
-	justify-content: flex-end;
 
-	.app-select-active {
-		font-size: $uni-font-size-base;
-		color: $uni-text-color;
+	.app-select-text {
+		flex: 1;
+		margin-right: 30upx;
+		font-size: 28upx;
+		color: #333;
+		overflow: hidden;
+		&--unselect {
+			color: #ccc;
+		}
 	}
-	.app-select-unselect {
-		font-size: $uni-font-size-base;
-		color: $uni-text-color-placeholder;
-	}
+
 	.app-select-icon {
-		margin-left: $uni-spacing-row-sm;
-		font-size: $uni-font-size-lg;
-		color: $uni-text-color;
+		margin-left: 10upx;
+		font-size: 32upx;
+		color: #333;
+	}
+
+	&.app-select-value--sm {
+		.app-select-text {
+			font-size: 24upx;
+		}
+	}
+	&.app-select-value--lg {
+		font-size: 32upx;
 	}
 }
 </style>
